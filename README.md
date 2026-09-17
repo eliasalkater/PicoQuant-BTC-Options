@@ -38,15 +38,6 @@ Newton–Raphson is used to find the volatility that makes the Black–Scholes p
 
 Historical and implied volatility are currently combined using a 50/50 weighting:
 
-$$
-\sigma_{fair}
-=
-0.5\sigma_{historical}
-+
-0.5\sigma_{implied}
-$$
-
-The resulting volatility is used to calculate the model's fair option value.
 
 ## Hardware
 
