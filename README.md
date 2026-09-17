@@ -77,6 +77,11 @@ The project explores the implementation of quantitative finance models on a reso
 
 This introduces practical challenges involving **memory, numerical precision, computation, networking, and JSON parsing**.
 
+### Results
+
+<img width="570" height="594" alt="image" src="https://github.com/user-attachments/assets/4730366c-21aa-4922-8f93-78ccf1fecf18" />
+
+
 ## Disclaimer
 
 This project is for educational and research purposes only. Model outputs depend on the assumptions, numerical methods, and market data used.
