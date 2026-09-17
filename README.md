@@ -4,64 +4,39 @@
 
 An embedded quantitative finance project built on a **Raspberry Pi Pico W**.
 
-PicoQuant combines live Bitcoin options data, historical BTC prices, volatility estimation, and Black–Scholes option pricing into a single embedded system.
+PicoQuant combines live Bitcoin options data, historical BTC prices, volatility estimation, and Black–Scholes pricing.
 
 ## Features
 
 - Raspberry Pi Pico W + Wi-Fi
-- Live Bitcoin option data from **Deribit Testnet**
+- Live Bitcoin options data from **Deribit Testnet**
 - Historical BTC/USD data from **Coinbase**
-- Log-return calculations
-- Annualised historical volatility
+- Historical volatility calculation
 - Implied volatility using **Newton–Raphson**
 - Black–Scholes call pricing
-- Historical + implied volatility blending
 - Market price vs model fair value comparison
 
-## How It Works
+## Methodology
 
-### 1. Historical Volatility
+### Historical Volatility
 
-The system retrieves 90 daily BTC/USD closing prices and calculates logarithmic returns:
+90 daily BTC/USD closing prices are used to calculate log returns and annualised historical volatility.
 
 $$
 r_t = \ln\left(\frac{P_t}{P_{t-1}}\right)
 $$
 
-Daily volatility is then annualised using:
-
 $$
 \sigma_{annual} = \sigma_{daily}\sqrt{365}
 $$
 
-### 2. Black–Scholes
-
-The project calculates the theoretical price of a European call option using:
-
-- BTC price
-- Strike price
-- Time to expiry
-- Risk-free rate
-- Volatility
-
-$$
-C = S N(d_1) - K e^{-rT}N(d_2)
-$$
-
-### 3. Implied Volatility
+### Implied Volatility
 
 Newton–Raphson is used to find the volatility that makes the Black–Scholes price match the observed market price.
 
-$$
-\sigma_{n+1}
-=
-\sigma_n -
-\frac{C(\sigma_n)-C_{market}}{Vega(\sigma_n)}
-$$
+### Fair Volatility
 
-### 4. Fair Volatility
-
-The current prototype combines historical and implied volatility:
+Historical and implied volatility are currently combined using a 50/50 weighting:
 
 $$
 \sigma_{fair}
@@ -73,27 +48,44 @@ $$
 
 The resulting volatility is used to calculate the model's fair option value.
 
-## Example
+## Hardware
 
-Example output from the Pico W:
+- Raspberry Pi Pico W
+- USB connection
+- Optional I²C OLED display
 
-```text
-========================================
-       BTC OPTION PRICING MODEL
-========================================
-Instrument            BTC-25SEP26-75000-C
-BTC Price             $75880.95
-Strike                $75000.00
-Market Option Price   $2029.82
-Time to Expiry        8.4 days
+## Data Sources
 
-Historical Volatility 36.73%
-Implied Volatility     33.00%
-Fair Volatility        34.87%
+- **Deribit Testnet** — live Bitcoin option data
+- **Coinbase Exchange API** — historical BTC/USD data
 
-Model Fair Value      $2112.38
-Market vs Model       -4.07%
+## Limitations
 
-Risk-Free Rate        4.00%
-========================================
-```
+This is an educational quantitative finance prototype.
+
+- 90-day historical volatility sample
+- Simple 50/50 volatility weighting
+- Black–Scholes assumes constant volatility
+- Fixed risk-free rate
+- No volatility surface modelling
+- No automated trading
+
+## Future Development
+
+- EWMA volatility forecasting
+- Volatility backtesting
+- Realised vs forecast volatility
+- Volatility clustering
+- Volatility smile and skew analysis
+- Alternative volatility models
+- OLED display
+
+## Why PicoQuant?
+
+The project explores the implementation of quantitative finance models on a resource-constrained microcontroller rather than relying entirely on Python, R, or MATLAB.
+
+This introduces practical challenges involving **memory, numerical precision, computation, networking, and JSON parsing**.
+
+## Disclaimer
+
+This project is for educational and research purposes only. Model outputs depend on the assumptions, numerical methods, and market data used.
